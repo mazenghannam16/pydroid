@@ -1,0 +1,29 @@
+name: Run Telegram Repost Bot
+
+on:
+  schedule:
+    # هذا يحدد التوقيت اللي هيشتغل فيه السكريبت. كل 30 دقيقة.
+    - cron: '*/30 * * * *'  # لتشغيل السكريبت كل 30 دقيقة
+  workflow_dispatch:  # علشان تشغله يدويًا لو حبيت
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest  # بيشغل السكريبت على جهاز لينكس
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2  # بيعمل Checkout للمستودع
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # أو أي إصدار بايثون بتستخدمه
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt  # لو عندك ملفات dependencies مثل `requirements.txt`
+
+    - name: Run the bot script
+      run: |
+        python repost_bot.py  # اسم السكريبت بتاعك
